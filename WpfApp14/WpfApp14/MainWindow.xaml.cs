@@ -24,7 +24,7 @@ namespace WpfApp14
         BitmapImage bmpImgX;
         BitmapImage bmpImg0;
 
-        CurrentCell[] cellStates = new CurrentCell[9]
+        CurrentCell[] curCell = new CurrentCell[9]
             {
                 CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected,
                 CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected,
@@ -61,21 +61,48 @@ namespace WpfApp14
             Image img = (Image)btn.Content;
             int btnNumber = Convert.ToInt32((string)btn.Tag);
 
-            if (X == true && cellStates[btnNumber] == CurrentCell.NotSelected)
+            if (X == true && curCell[btnNumber] == CurrentCell.NotSelected)
             {
                 img.Source = bmpImgX;
-                cellStates[btnNumber] = CurrentCell.X;
+                curCell[btnNumber] = CurrentCell.X;
                 X = false;
 
             }
-            else if (cellStates[btnNumber] == CurrentCell.NotSelected)
+            else if (curCell[btnNumber] == CurrentCell.NotSelected)
             {
                 img.Source = bmpImg0;
-                cellStates[btnNumber] = CurrentCell.O;
+                curCell[btnNumber] = CurrentCell.O;
                 X = true;
             }
 
 
+        }
+        private Boolean CheckCellState(CurrentCell curCell)
+        {
+            if (this.curCell[0] == curCell && this.curCell[1] == curCell && this.curCell[2] == curCell)
+                return true;
+            else
+                if (this.curCell[3] == curCell && this.curCell[4] == curCell && this.curCell[5] == curCell)
+                return true;
+            else
+                    if (this.curCell[6] == curCell && this.curCell[7] == curCell && this.curCell[8] == curCell)
+                return true;
+            else
+                        if (this.curCell[0] == curCell && this.curCell[3] == curCell && this.curCell[6] == curCell)
+                return true;
+            else
+                            if (this.curCell[1] == curCell && this.curCell[4] == curCell && this.curCell[7] == curCell)
+                return true;
+            else
+                                if (this.curCell[2] == curCell && this.curCell[5] == curCell && this.curCell[8] == curCell)
+                return true;
+            else
+                                    if (this.curCell[0] == curCell && this.curCell[4] == curCell && this.curCell[8] == curCell)
+                return true;
+            else
+                                        if (this.curCell[2] == curCell && this.curCell[4] == curCell && this.curCell[6] == curCell)
+                return true;
+            return false;
         }
     }
 
