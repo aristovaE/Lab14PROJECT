@@ -8,8 +8,9 @@ namespace WpfApp14
 {
     public enum CurrentCell : byte
     {
-        X,
-        O,
-        NotSelected
+        //текущая клетка:
+        X, //крестик
+        O, //нолик
+        NotSelected //не отмечена
     }
 }

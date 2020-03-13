@@ -8,9 +8,10 @@ namespace WpfApp14
 {
     public enum ResultOfGame : byte
     {
-        CrossWin,
-        ZeroWin,
-        Draw,
-        Continue
+        //результаты игры:
+        XWin, //победили крестики
+        OWin, //победили нолики
+        Nor, //ничья
+        Continue //продолжить игру
     }
 }
