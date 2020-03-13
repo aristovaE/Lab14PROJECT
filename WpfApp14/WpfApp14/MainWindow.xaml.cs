@@ -75,7 +75,31 @@ namespace WpfApp14
                 X = true;
             }
 
+            switch (GetGameResult())
+            {
+                case ResultOfGame.XWin:
+                    MessageBox.Show(this, "Выиграли крестики");
+                    break;
+                case ResultOfGame.OWin:
+                    MessageBox.Show(this, "Выиграли нолики");
+                    break;
+                case ResultOfGame.Nor:
+                    MessageBox.Show(this, "Ничья");
+                    break;
+                case ResultOfGame.Continue:
+                    break;
+            }
 
+        }
+        private ResultOfGame GetGameResult()
+        {
+            if (curCell.All<CurrentCell>(c => c != CurrentCell.NotSelected)) //Проверить каждый элемент массива cellStates не равен ли он CellState.NotSelected. Если все неравны, то ничья.
+                return ResultOfGame.Nor;
+            if (CheckCellState(CurrentCell.O))
+                return ResultOfGame.OWin;
+            if (CheckCellState(CurrentCell.X))
+                return ResultOfGame.XWin;
+            return ResultOfGame.Continue;
         }
         private Boolean CheckCellState(CurrentCell curCell)
         {
