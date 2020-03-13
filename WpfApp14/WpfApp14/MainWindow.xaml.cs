@@ -20,9 +20,29 @@ namespace WpfApp14
     /// </summary>
     public partial class MainWindow : Window
     {
+        Boolean XMovement = false; // для чередования хода
+
+        CurrentCell[] cellStates = new CurrentCell[9]
+            {
+                CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected,
+                CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected,
+                CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected
+            };
+        // для установки пустых клеток сначала
         public MainWindow()
         {
             InitializeComponent();
+            for (int i = 0; i < LayoutRoot.Children.Count; i++)
+            {
+                if (LayoutRoot.Children[i] is Button)
+                {
+                    Button btn = (Button)LayoutRoot.Children[i];
+                    btn.Click += new RoutedEventHandler(Button_Click);
+                }
+            }
         }
-    }
+        private void Button_Click(object sender, EventArgs e)
+        { }
+
+        }
 }
