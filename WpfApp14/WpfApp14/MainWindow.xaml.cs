@@ -21,8 +21,8 @@ namespace WpfApp14
     public partial class MainWindow : Window
     {
         Boolean X = false; // для чередования хода
-        BitmapImage bmpImgX;
-        BitmapImage bmpImg0;
+        BitmapImage bmpImgX; //Для изображения крестика
+        BitmapImage bmpImg0; //Для изображения нолика
 
         CurrentCell[] curCell = new CurrentCell[9]
             {
@@ -31,6 +31,7 @@ namespace WpfApp14
                 CurrentCell.NotSelected, CurrentCell.NotSelected, CurrentCell.NotSelected
             };
         // для установки пустых клеток сначала
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -38,16 +39,10 @@ namespace WpfApp14
             Uri uriImgX = new Uri(@"pack://application:,,,/Resources/x.png", UriKind.Absolute);
             bmpImg0 = GetBitmapImage(uriImg0);
             bmpImgX = GetBitmapImage(uriImgX);
-            Turn.Content = "Ход: О";
-            for (int i = 0; i < LayoutRoot.Children.Count; i++)
-            {
-                if (LayoutRoot.Children[i] is Button)
-                {
-                    Button btn = (Button)LayoutRoot.Children[i];
-                    btn.Click += new RoutedEventHandler(Button_Click);
-                }
-            }
+
+            Turn.Content = "Ход: О";         
         }
+
         BitmapImage GetBitmapImage(Uri uri)
         {
             BitmapImage bitmapImage = new BitmapImage();
@@ -56,6 +51,10 @@ namespace WpfApp14
             bitmapImage.EndInit();
             return bitmapImage;
         }
+
+        /// <summary>
+        /// Установка крестика или нолика на поле
+        /// </summary>
         private void Button_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -77,9 +76,10 @@ namespace WpfApp14
                 Turn.Content = "Ход: Х";
             }
 
+            //Вывод сообщени в зависимости от результатов игры(или продолжение игры)
             switch (GetGameResult())
             {
-                case ResultOfGame.XWin:
+                case ResultOfGame.XWin: 
                     MessageBox.Show(this, "Выиграли крестики", "Победа!");
                     Restart();
                     break;
@@ -97,7 +97,9 @@ namespace WpfApp14
 
         }
 
-        //Рестарт
+        /// <summary>
+        /// Рестарт игры при победе или заполнении всех ячеек
+        /// </summary>
         private void Restart()
         {
             for (int i = 0; i < curCell.Length; i++)
@@ -112,17 +114,30 @@ namespace WpfApp14
             }
         }
 
-
+        /// <summary>
+        /// Проверка состояния игры
+        /// </summary>
+        /// <returns>Установка результата игры: 
+        /// Победа крестиков или ноликов
+        /// Ничья - если все ячейки заполнены и не было сообщения о победе
+        /// Иначе -> продолжение игры
+        /// </returns>
         private ResultOfGame GetGameResult()
         {
-            if (curCell.All<CurrentCell>(c => c != CurrentCell.NotSelected)) //Проверить каждый элемент массива cellStates не равен ли он CellState.NotSelected. Если все неравны, то ничья.
-                return ResultOfGame.Nor;
             if (CheckCellState(CurrentCell.O))
                 return ResultOfGame.OWin;
             if (CheckCellState(CurrentCell.X))
                 return ResultOfGame.XWin;
+            if (curCell.All<CurrentCell>(c => c != CurrentCell.NotSelected)) //Проверить каждый элемент массива cellStates не равен ли он CellState.NotSelected. Если все неравны, то ничья.
+                return ResultOfGame.Nor;
             return ResultOfGame.Continue;
         }
+
+        /// <summary>
+        /// Проверка всех победных комбинаций
+        /// </summary>
+        /// <param name="curCell">Крестик или нолик</param>
+        /// <returns>true - если победа достигнута, иначе - false</returns>
         private Boolean CheckCellState(CurrentCell curCell)
         {
             if (this.curCell[0] == curCell && this.curCell[1] == curCell && this.curCell[2] == curCell)
