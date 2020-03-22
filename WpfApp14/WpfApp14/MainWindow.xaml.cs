@@ -78,19 +78,39 @@ namespace WpfApp14
             switch (GetGameResult())
             {
                 case ResultOfGame.XWin:
-                    MessageBox.Show(this, "Выиграли крестики");
+                    MessageBox.Show(this, "Выиграли крестики", "Победа!");
+                    Restart();
                     break;
                 case ResultOfGame.OWin:
-                    MessageBox.Show(this, "Выиграли нолики");
+                    MessageBox.Show(this, "Выиграли нолики", "Победа!");
+                    Restart();
                     break;
                 case ResultOfGame.Nor:
-                    MessageBox.Show(this, "Ничья");
+                    MessageBox.Show(this, "Ничья", "Ничья!");
+                    Restart();
                     break;
                 case ResultOfGame.Continue:
                     break;
             }
 
         }
+
+        //Рестарт
+        private void Restart()
+        {
+            for (int i = 0; i < curCell.Length; i++)
+                curCell[i] = CurrentCell.NotSelected;
+            for (int i = 0; i < LayoutRoot.Children.Count; i++)
+            {
+                if (LayoutRoot.Children[i] is Button)
+                {
+                    Button btn = (Button)LayoutRoot.Children[i];
+                    ((Image)btn.Content).Source = null;
+                }
+            }
+        }
+
+
         private ResultOfGame GetGameResult()
         {
             if (curCell.All<CurrentCell>(c => c != CurrentCell.NotSelected)) //Проверить каждый элемент массива cellStates не равен ли он CellState.NotSelected. Если все неравны, то ничья.
