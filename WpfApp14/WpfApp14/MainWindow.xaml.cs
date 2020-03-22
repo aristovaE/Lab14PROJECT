@@ -38,6 +38,7 @@ namespace WpfApp14
             Uri uriImgX = new Uri(@"pack://application:,,,/Resources/x.png", UriKind.Absolute);
             bmpImg0 = GetBitmapImage(uriImg0);
             bmpImgX = GetBitmapImage(uriImgX);
+            Turn.Content = "Ход: О";
             for (int i = 0; i < LayoutRoot.Children.Count; i++)
             {
                 if (LayoutRoot.Children[i] is Button)
@@ -66,13 +67,14 @@ namespace WpfApp14
                 img.Source = bmpImgX;
                 curCell[btnNumber] = CurrentCell.X;
                 X = false;
-
+                Turn.Content = "Ход: О";
             }
             else if (curCell[btnNumber] == CurrentCell.NotSelected)
             {
                 img.Source = bmpImg0;
                 curCell[btnNumber] = CurrentCell.O;
                 X = true;
+                Turn.Content = "Ход: Х";
             }
 
             switch (GetGameResult())
